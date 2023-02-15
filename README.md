@@ -1,6 +1,21 @@
 # SE-PQAEF
 
 ```
+- download_and_extract_data.sh # script to download the stackexchange dump from archive.org  
+- combine_data.py # combine the data downladed before
+- combine_data_single_comm.py # for single community experiment only
+- single_community_pipe.sh # for single community expertiment only
+- mapping.json # mapping file for elasticsearch with best hyperparameters
+- data_exploration.ipynb # jupyter notebook with dataexploration written in the paper
+
+# the following folders are specific for expertiments and are described below
+- 03_best_answers
+- 03_best_answers_model
+- 04_best_expert
+- 04_best_expert_model
+```
+
+```
 - 03_best_answers: # in this folder we create the dataset
   - create_best_answer_data.py # create the first portion of data
   - create_final_run.py # combines data with bm25 to create the final dataset
@@ -43,9 +58,10 @@
   - model: # files defining the models
     - loss.py
     - model.py
-  - fuse.py
+  - fuse.py # beware you need to change test weights manually
   - testing_reranker.py
   - testing_tag_based.py
+  - pipeline.sh # set flags and run the whole experiments
 ```
 
 
