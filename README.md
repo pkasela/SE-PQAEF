@@ -81,10 +81,10 @@ The two dataset we created are organized as follows:
 answer_retrieval:
 - train: 
   - bm25_run.json # the first stage ranker list for each training query
-  - data_pers.jsonl # pers version of the dataset with first stage results included
-  - data.jsonl # base version of the dataset with first stage results included
-  - queries_pers.jsonl # pers version of the dataset with first stage results excluded
-  - queries.jsonl # base version of the dataset with first stage results excluded
+  - data_pers.jsonl # pers version of the dataset with first stage results excluded
+  - data.jsonl # base version of the dataset with first stage results excluded
+  - queries_pers.jsonl # pers version of the dataset with first stage results included
+  - queries.jsonl # base version of the dataset with first stage results included
 - val:
   - *other_models*_run.json # various run used in the papers
   - bm25_run.json 
@@ -105,9 +105,20 @@ answer_retrieval:
 
 ```
 best_expert:
-- train
-- val
-- test
+- train:
+  - bm25_run.json # the first stage ranker list for each training query
+  - data.jsonl # each query with relevant user associated and other metadata
+- val:
+  - bm25_run.json # the first stage ranker list for each training query
+  - data.jsonl # each query with relevant user associated and other metadata
+  - *various_models_runs*.json # the runs generated with the experiment in paper
+- test:
+  - bm25_run.json # the first stage ranker list for each training query
+  - data.jsonl # each query with relevant user associated and other metadata
+  - *various_models_runs*.json # the runs generated with the experiment in paper
+- answer_collection.json # the complete answer collection from which you need to retrieve the answers
+- question_collection.json # the questions used to create train, val and test splits (can be useful for some specific models)
+- expert_test_data.json # collection of answers of only the experts before the test split data (used in experiments)
 ```
 
 
