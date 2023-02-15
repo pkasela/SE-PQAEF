@@ -1,5 +1,53 @@
 # SE-PQAEF
 
+```
+- 03_best_answers: # in this folder we create the dataset
+  - create_best_answer_data.py # create the first portion of data
+  - create_final_run.py # combines data with bm25 to create the final dataset
+  - elastic.py # helper class for elastic server
+  - get_bm25_run.py # creates the bm25 first stage rank using the mapping file (in the main folder) 
+  - get_remaining_bm25_run.py # not needed unless elastic search returns an error on some queries (timeout etc.)
+  - optimize_bm25.py # finds the best values for b and k for elasticsearch
+  - pipeline.sh # script with the various flags for each script that needs to run to create the dataset
+- 03_best_answers_model: # train and test the model for cQ&A
+  - dataloader: # files needed for loading data for training and testing 
+    - dataloader.py
+    - utils.py
+  - model: # files defining the models
+    - loss.py
+    - model.py
+  - saved_models: # store the tranined model here
+    - model_0.pt
+    - model_10.pt
+  - community_average.py # for separate community experiment
+  - create_answer_embeddings.py # create embeddings for all answers and stores it
+  - create_model_zero.py # create a .pt file from the pre-trained MiniLM
+  - fuse_optimizer.py # optimizes the values for lambda for each run using validation set and computes score on test set
+  - testing_bm25.py # create re-ranking combining bm25 and bert like models
+  - testing_pers_tag.py # create the TAG model run
+  - training.py # training DistilBERT (or any BERT like model)
+  - pipeline.sh # pipeline to run the whole training and testing procedure
+  - testing_pipeline.sh # just if you need to test without tranining
+```
+
+```
+- 04_best_expert:
+  - data_creation.py
+  - elastic.py
+  - get_bm25_run.py
+  - pipeline.sh
+- 04_best_expert_model:
+  - dataloader: # files needed for loading data for training and testing 
+    - dataloader.py
+    - utils.py
+  - model: # files defining the models
+    - loss.py
+    - model.py
+  - fuse.py
+  - testing_reranker.py
+  - testing_tag_based.py
+```
+
 
 EF Results
 
