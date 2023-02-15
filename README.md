@@ -64,6 +64,54 @@
   - pipeline.sh # set flags and run the whole experiments
 ```
 
+The dataset is divided as follows:
+```
+- answers.csv (Id,CreationDate,Score,Title,Tags,CommentCount,ParentId,AccountId,Text)
+- comments.csv (Id,PostId,Score,Text,CreationDate,ContentLicense,AccountId)
+- postlinks.csv (PostId,RelatedPostId,LinkType)
+- questions_with_answer.csv (Id,PostTypeId,AcceptedAnswerId,CreationDate,Score,ViewCount,Body,OwnerUserId,Title,Tags,AnswerCount,CommentCount,FavoriteCount,ParentId,Id_,AccountId)
+- questions.csv (Id,AcceptedAnswerId,CreationDate,Score,ViewCount,Body,Title,Tags,AnswerCount,CommentCount,FavoriteCount,AccountId,Text,Community)
+- tags.csv (Id,TagName,Count,PostId,Body,Community)
+- users.csv (Id,Reputation,CreationDate,DisplayName,AboutMe,Views,UpVotes,DownVotes,AccountId)
+```
+These are the complete dump of various communities with cleaned text and combined toghether. This can be used to create data for other tasks as well, for example using the postlinks.csv one can create duplication question retrieval for example, or one can create a classification task for communities using the community field of the questions and/or answers.
+The two dataset we created are organized as follows:
+
+```
+answer_retrieval:
+- train: 
+  - bm25_run.json # the first stage ranker list for each training query
+  - data_pers.jsonl # pers version of the dataset with first stage results included
+  - data.jsonl # base version of the dataset with first stage results included
+  - queries_pers.jsonl # pers version of the dataset with first stage results excluded
+  - queries.jsonl # base version of the dataset with first stage results excluded
+- val:
+  - *other_models*_run.json # various run used in the papers
+  - bm25_run.json 
+  - data_pers.jsonl 
+  - data.jsonl 
+  - queries_pers.jsonl 
+  - queries.jsonl 
+- test
+  - *other_models*_run.json # various run used in the papers
+  - bm25_run.json 
+  - data_pers.jsonl 
+  - data.jsonl 
+  - queries_pers.jsonl 
+  - queries.jsonl 
+- answer_collection.json # the complete answer collection from which you need to retrieve the answers
+- question_collection.json # the questions used to create train, val and test splits (can be useful for some specific models)
+```
+
+```
+best_expert:
+- train
+- val
+- test
+```
+
+
+
 
 EF Results
 
