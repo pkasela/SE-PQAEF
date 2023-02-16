@@ -24,7 +24,7 @@
 
 ```
 - 03_best_answers: # in this folder we create the dataset for cQ&A
-  - pipeline.sh # script with the various flags for each script that needs to run to create the dataset
+  - pipeline.sh # script with the various flags for each script that needs to run to create the cQA dataset
   - create_best_answer_data.py # create the dataset, with the question and relevant answers
   - elastic.py # contains helper functions for elasticsearch server
   - optimize_bm25.py # finds the best values for b and k1 for retrieval
@@ -55,10 +55,10 @@
 
 ```
 - 04_best_expert:
-  - data_creation.py
-  - elastic.py
-  - get_bm25_run.py
-  - pipeline.sh
+  - data_creation.py # create the dataset, with the question and expert pairs
+  - elastic.py # contains helper functions for elasticsearch server
+  - get_bm25_run.py # creates the bm25 first stage rank using the mapping file (both in the main folder and this folder) 
+  - pipeline.sh  # script with the various flags for each script that needs to run to create the EF dataset
 - 04_best_expert_model:
   - dataloader: # files needed for loading data for training and testing 
     - dataloader.py
@@ -66,13 +66,13 @@
   - model: # files defining the models
     - loss.py
     - model.py
-  - fuse.py # beware you need to change test weights manually
-  - testing_reranker.py
-  - testing_tag_based.py
-  - pipeline.sh # set flags and run the whole experiments
+  - fuse.py # combines the BM25, DistilBERT or MiniLM and TAG runs. Beware you need to change test weights manually in the script after tuning  them with the validation set (using --split 'val')
+  - testing_reranker.py # computes the runs with MiniLM and DistilBERT
+  - testing_tag_based.py # computes the run using the TAG model
+  - pipeline.sh # set flags and run the whole experiments, flags needs to be changed if you change the relative path for the dataset
 ```
 
-The dataset is divided as follows:
+The dataset is divided as follows, we specify the fields provided in the files:
 ```
 - answers.csv (Id,CreationDate,Score,Title,Tags,CommentCount,ParentId,AccountId,Text)
 - comments.csv (Id,PostId,Score,Text,CreationDate,ContentLicense,AccountId)
@@ -117,12 +117,12 @@ best_expert:
   - bm25_run.json # the first stage ranker list for each training query
   - data.jsonl # each query with relevant user associated and other metadata
 - val:
-  - bm25_run.json # the first stage ranker list for each training query
-  - data.jsonl # each query with relevant user associated and other metadata
+  - bm25_run.json 
+  - data.jsonl 
   - *various_models_runs*.json # the runs generated with the experiment in paper
 - test:
-  - bm25_run.json # the first stage ranker list for each training query
-  - data.jsonl # each query with relevant user associated and other metadata
+  - bm25_run.json 
+  - data.jsonl
   - *various_models_runs*.json # the runs generated with the experiment in paper
 - answer_collection.json # the complete answer collection from which you need to retrieve the answers
 - question_collection.json # the questions used to create train, val and test splits (can be useful for some specific models)
