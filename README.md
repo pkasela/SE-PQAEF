@@ -23,32 +23,33 @@
 ```
 
 ```
-- 03_best_answers: # in this folder we create the dataset
-  - create_best_answer_data.py # create the first portion of data
-  - create_final_run.py # combines data with bm25 to create the final dataset
-  - elastic.py # helper class for elastic server
-  - get_bm25_run.py # creates the bm25 first stage rank using the mapping file (in the main folder) 
-  - get_remaining_bm25_run.py # not needed unless elastic search returns an error on some queries (timeout etc.)
-  - optimize_bm25.py # finds the best values for b and k for elasticsearch
+- 03_best_answers: # in this folder we create the dataset for cQ&A
   - pipeline.sh # script with the various flags for each script that needs to run to create the dataset
+  - create_best_answer_data.py # create the dataset, with the question and relevant answers
+  - elastic.py # contains helper functions for elasticsearch server
+  - optimize_bm25.py # finds the best values for b and k1 for retrieval
+  - get_bm25_run.py # creates the bm25 first stage rank using the mapping file (both in the main folder and this folder) 
+  - get_remaining_bm25_run.py # needed only if elastic search returns an error on some queries (timeout etc.)
+  - create_final_run.py # combines data with bm25 to create the final dataset
+  
 - 03_best_answers_model: # train and test the model for cQ&A
-  - dataloader: # files needed for loading data for training and testing 
+  - dataloader: # contains files needed for loading data for training and testing 
     - dataloader.py
     - utils.py
-  - model: # files defining the models
+  - model: # files defining the models and the loss in pytorch
     - loss.py
     - model.py
   - saved_models: # store the tranined model here
-    - model_0.pt
-    - model_10.pt
-  - community_average.py # for separate community experiment
-  - create_answer_embeddings.py # create embeddings for all answers and stores it
-  - create_model_zero.py # create a .pt file from the pre-trained MiniLM
+    - model_0.pt # pre-trained model MiniLM from HuggingFace
+    - model_10.pt # trained DistilBERT model
+  - community_average.py # computes the average score for all the communties trained in a separate manner, not needed for the complete dataset
+  - create_answer_embeddings.py # create embeddings for all answers and stores it in a separate file ("pre-index" to speed up the retrieval time)
+  - create_model_zero.py # create a .pt file for the pre-trained MiniLM (model_0.pt)
   - fuse_optimizer.py # optimizes the values for lambda for each run using validation set and computes score on test set
-  - testing_bm25.py # create re-ranking combining bm25 and bert like models
-  - testing_pers_tag.py # create the TAG model run
+  - testing_bm25.py # create re-ranking runs combining BM25 and DistilBERT or BM25 and MiniLM
+  - testing_pers_tag.py # create the personalized TAG model run
   - training.py # training DistilBERT (or any BERT like model)
-  - pipeline.sh # pipeline to run the whole training and testing procedure
+  - pipeline.sh # pipeline to run the whole training and testing procedure, change flags values if you change the relative path 
   - testing_pipeline.sh # just if you need to test without tranining
 ```
 
