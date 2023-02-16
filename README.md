@@ -1,18 +1,25 @@
 # SE-PQAEF
 
+**This complete code will be uploaded in this repository upon acceptance.** 
+
+
 ```
 - download_and_extract_data.sh # script to download the stackexchange dump from archive.org  
-- combine_data.py # combine the data downladed before
-- combine_data_single_comm.py # for single community experiment only
-- single_community_pipe.sh # for single community expertiment only
+- combine_data.py # combine the data from the various communities downladed with the previous script
+- combine_data_single_comm.py # this file is used for single community experiment only, not needed to recreate the dataset
+- single_community_pipe.sh # pipeline to run testing on single community expertiment only, not needed to recreate the dataset
 - mapping.json # mapping file for elasticsearch with best hyperparameters
-- data_exploration.ipynb # jupyter notebook with dataexploration written in the paper
+- data_exploration.ipynb # jupyter notebook with data exploration written in the paper
 
 # the following folders are specific for expertiments and are described below
-- 03_best_answers
-- 03_best_answers_model
-- 04_best_expert
-- 04_best_expert_model
+# each folder contains a pipeline script (pipeline.sh) that runs the commands needed for 
+# dataset creation or training and testing in the correct order, you might need to change the 
+# variables, if you change the path for the dataset etc.
+# the four folders are the following:
+- 03_best_answers # create the dataset for comunnity question and answering (cQ&A) here
+- 03_best_answers_model # train and test the various runs presented in the paper for cQ&A
+- 04_best_expert # create the dataset for expert finding (EF) here
+- 04_best_expert_model # train and test the various runs presented in the paper for EF
 ```
 
 ```
